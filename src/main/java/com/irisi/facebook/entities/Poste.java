@@ -1,6 +1,7 @@
 package com.irisi.facebook.entities;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,4 +26,7 @@ public class Poste {
 
     @Field(name = "date_publication")
     private Date datePublication;
+
+    @DBRef
+    private User user;
 }

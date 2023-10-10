@@ -7,6 +7,7 @@ import com.irisi.facebook.repositories.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Mapper
 public interface CommentaireMapper {
