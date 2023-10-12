@@ -53,7 +53,9 @@ public class CommentaireImpl implements CommentaireService {
                 existingComment.setDatePublication(commentaireDto.getDatePublication());
             }
             if (commentaireDto.getUserId() != null) {
-                existingComment.setId(commentaireDto.getUserId());
+                User user = new User();
+                user.setId(commentaireDto.getUserId());
+                existingComment.setUser(user);
             }
 
             // Enregistrez les modifications dans la base de données
