@@ -1,5 +1,6 @@
 package com.irisi.facebook.services.interfaces;
 
+import com.irisi.facebook.dto.CommentaireDto;
 import com.irisi.facebook.dto.UserDto;
 import com.irisi.facebook.entities.User;
 import com.irisi.facebook.repositories.UserRepository;
@@ -15,4 +16,7 @@ public interface UserService {
     UserDto updateUser(String userId, UserDto userDto);
     void deleteUser(String id);
     List<UserDto> allUsers();
+    UserDto getUserById(String userId);
+
+    void createCommentaireForUser(UserDto userDto, CommentaireDto commentaireDto);
 }

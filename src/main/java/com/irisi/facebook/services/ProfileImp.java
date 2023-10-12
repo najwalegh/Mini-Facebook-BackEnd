@@ -6,6 +6,7 @@ import com.irisi.facebook.entities.Poste;
 import com.irisi.facebook.entities.Profile;
 import com.irisi.facebook.entities.User;
 import com.irisi.facebook.mappers.ProfileMapper;
+import com.irisi.facebook.mappers.UserMapper;
 import com.irisi.facebook.repositories.ProfileRepository;
 import com.irisi.facebook.services.interfaces.ProfileService;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,11 @@ public class ProfileImp  implements ProfileService {
 
     private final ProfileMapper profileMapper;
     private final ProfileRepository profileRepository;
+    private final UserMapper userMapper;
 
     @Override
-    public ProfileDto saveProfil(ProfileDto profileDto) {
-        Profile profile = profileMapper.profileDtoToProfile(profileDto);
+    public ProfileDto saveProfil(Profile profile) {
+//        Profile profile = profileMapper.profileDtoToProfile(profileDto);
         Profile savedProfile= profileRepository.save(profile);
         return profileMapper.profileToProfileDto(savedProfile);
     }
@@ -53,10 +55,10 @@ public class ProfileImp  implements ProfileService {
             if (profileDto.getStatus() != null) {
                 existingProfile.setStatus(profileDto.getStatus());
             }
-            if (profileDto.getUserId() != null) {
-                User user = new User();
-                user.setId(profileDto.getUserId());
-                existingProfile.setUser(user);
+
+            // a revoir
+            if (profileDto.getUserId()!= null) {
+                existingProfile.setUserId(profileDto.getUserId());
             }
             // Enregistrez les modifications dans la base de données
             Profile updatedProfile = profileRepository.save(existingProfile);

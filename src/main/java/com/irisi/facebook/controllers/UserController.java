@@ -50,9 +50,5 @@ public class UserController {
         UserDto updatedUserDto = userService.updateUser(id,userDto);
         return new ResponseEntity<>(updatedUserDto,HttpStatus.OK);
     }
-
-
-
-
-
 }
+
