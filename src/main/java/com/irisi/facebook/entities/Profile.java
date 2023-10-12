@@ -15,7 +15,6 @@ public class Profile {
     private String status;
     private String citation;
     // L'utilisateur qui a créé ce commentaire
-    @DBRef
-    private User user;
+    private String userId;
 
 }

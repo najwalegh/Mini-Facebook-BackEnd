@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UserDto {
 
     private String id;
@@ -23,7 +22,7 @@ public class UserDto {
     private Date dateNaissance;
     private String adresseEmail;
     private String motDePasse;
-    private Profile profile;
-    private List<Commentaire> comments;
-    private List<Poste> posts;
+    private List<CommentaireDto> comments;
+    private List<PosteDto> posts;
+    private ProfileDto profile;
 }

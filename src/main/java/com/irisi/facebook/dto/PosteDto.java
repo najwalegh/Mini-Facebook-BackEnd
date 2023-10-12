@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +20,10 @@ import java.util.Date;
 public class PosteDto {
     private String id;
     private String contenu;
-    private String commentaireId;  // L'ID du commentaire associé
-    private int numberReaction;
+    private int likes;
+    private int dislikes;
     private Date datePublication;
+    private String userId;
+    private List<CommentaireDto> commentaireList;
+    private ImageDto image;
 }
