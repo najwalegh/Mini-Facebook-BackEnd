@@ -1,12 +1,20 @@
 package com.irisi.facebook.controllers;
 
+import com.irisi.facebook.dto.CommentaireDto;
 import com.irisi.facebook.dto.PosteDto;
+import com.irisi.facebook.dto.UserDto;
+import com.irisi.facebook.entities.Commentaire;
+import com.irisi.facebook.entities.Poste;
+import com.irisi.facebook.mappers.ImageMapper;
+import com.irisi.facebook.services.interfaces.CommentaireService;
 import com.irisi.facebook.services.interfaces.PosteService;
+import com.irisi.facebook.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend URL
 @RestController
@@ -15,33 +23,85 @@ public class PosteController {
     @Autowired
     public PosteService posteService;
 
+    @Autowired
+    public UserService userService;
+
+    @Autowired
+    public ImageMapper imageMapper;
+
+    @Autowired
+    public CommentaireService commentaireService;
+
     @GetMapping("/{postId}")
-    public ResponseEntity<PosteDto> getUtilisateur(@PathVariable("postId") String id) {
+    public ResponseEntity<PosteDto> getPoste(@PathVariable("postId") String id) {
         PosteDto posteDto=posteService.getPoste(id);
         return new ResponseEntity<>(posteDto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<PosteDto> createUtilisateur(@RequestBody PosteDto posteDto){
-        PosteDto createdPosteDto = posteService.savePoste(posteDto);
-        return new ResponseEntity<>(createdPosteDto,HttpStatus.OK);
+    public ResponseEntity<PosteDto> createPoste( @RequestBody PosteDto posteDto) {
+
+        String userId="1";
+        UserDto existingUserDto = userService.getUserById(userId);
+        if (existingUserDto != null) {
+            Poste poste = new Poste();
+            poste.setId(posteDto.getId());
+            poste.setContenu(posteDto.getContenu());
+            poste.setLikes(posteDto.getLikes());
+            poste.setDislikes(posteDto.getDislikes());
+            poste.setDatePublication(posteDto.getDatePublication());
+            poste.setUserId(userId);
+            poste.setImage(imageMapper.imageDtoToImage(posteDto.getImage()));
+
+            // Convertir la liste de CommentaireDto en une liste de Commentaire
+            List<CommentaireDto> commentaireDtoList = posteDto.getCommentaireList();
+            List<Commentaire> commentaireList = new ArrayList<>();
+            for (CommentaireDto commentaireDto : commentaireDtoList) {
+                Commentaire commentaire = new Commentaire();
+                commentaire.setContenu(commentaireDto.getContenu());
+                commentaire.setDatePublication(commentaireDto.getDatePublication());
+                commentaire.setUserId(commentaireDto.getUserId());
+                commentaire.setPosteId(commentaireDto.getPosteId());
+                commentaireList.add(commentaire);
+            }
+            poste.setCommentaires(commentaireList);
+
+            // Enregistrer le Poste
+            PosteDto createdPosteDto = posteService.savePoste(poste);
+
+            // Récupérer la liste des postes de l'utilisateur
+            List<PosteDto> postes = existingUserDto.getPosts();
+            if (postes == null) {
+                postes = new ArrayList<>();
+            }
+
+            // Ajouter le nouveau commentaire à la liste
+            postes.add(createdPosteDto);
+            existingUserDto.setPosts(postes);
+
+            // Mettre à jour l'utilisateur avec la nouvelle liste de commentaires
+            userService.updateUser(userId, existingUserDto);
+            return new ResponseEntity<>(createdPosteDto, HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<PosteDto>> getAllUtilisateurs(){
+    public ResponseEntity<List<PosteDto>> getAllPostes(){
         List<PosteDto> postes = posteService.allPostes();
         return new ResponseEntity<>(postes,HttpStatus.OK);
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteUtilisateur(@PathVariable("postId") String id) {
+    public ResponseEntity<Void> deletePoste(@PathVariable("postId") String id) {
         posteService.deletePoste(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/{postId}")
-    public ResponseEntity<PosteDto> partialUpdateUtilisateur( @PathVariable("postId") String id,
-                                                             @RequestBody PosteDto posteDto) {
+    public ResponseEntity<PosteDto> partialUpdatePoste( @PathVariable("postId") String id,
+                                                        @RequestBody PosteDto posteDto) {
 
         PosteDto updatePosteDto = posteService.updatePoste(id,posteDto);
         return new ResponseEntity<>(updatePosteDto,HttpStatus.OK);

@@ -1,10 +1,9 @@
 package com.irisi.facebook.services;
 
 import com.irisi.facebook.dto.PosteDto;
-import com.irisi.facebook.entities.Commentaire;
-import com.irisi.facebook.entities.Poste;
-import com.irisi.facebook.entities.Profile;
-import com.irisi.facebook.entities.User;
+import com.irisi.facebook.entities.*;
+import com.irisi.facebook.mappers.CommentaireMapper;
+import com.irisi.facebook.mappers.ImageMapper;
 import com.irisi.facebook.mappers.PosteMapper;
 import com.irisi.facebook.repositories.CommentaireRepository;
 import com.irisi.facebook.repositories.PosteRepository;
@@ -27,10 +26,11 @@ public class PosteImpl implements PosteService {
 
     private final PosteMapper posteMapper;
     private final PosteRepository posteRepository;
-    private CommentaireRepository commentaireRepository;
+    private CommentaireMapper commentaireMapper;
+    private ImageMapper imageMapper;
+
     @Override
-    public PosteDto savePoste(PosteDto posteDto) {
-        Poste poste = posteMapper.posteDtoToPoste(posteDto);
+    public PosteDto savePoste(Poste poste) {
         Poste savedPoste= posteRepository.save(poste);
         return posteMapper.posteToPosteDto(savedPoste);
     }
@@ -55,15 +55,25 @@ public class PosteImpl implements PosteService {
             if (posteDto.getDatePublication() != null) {
                 existingPoste.setDatePublication(posteDto.getDatePublication());
             }
-            if (posteDto.getNumberReaction() != 0) {
-                existingPoste.setNumberReaction(posteDto.getNumberReaction());
+            if (posteDto.getLikes() != 0) {
+                existingPoste.setLikes(posteDto.getLikes());
             }
-            if (posteDto.getCommentaireId() != null) {
-                // Récupérez le commentaire à partir de l'identifiant
-                Commentaire commentaire = commentaireRepository.findById(posteDto.getCommentaireId())
-                        .orElseThrow(() -> new EntityNotFoundException("Commentaire introuvable avec l'ID : " + posteDto.getCommentaireId()));
+            if (posteDto.getDislikes() != 0) {
+                existingPoste.setDislikes(posteDto.getDislikes());
+            }
+            if (posteDto.getUserId() != null) {
+                existingPoste.setUserId(posteDto.getUserId());
+            }
+            if (posteDto.getImage() != null) {
+                Image image= imageMapper.imageDtoToImage(posteDto.getImage());
+                existingPoste.setImage(image);
+            }
+            if (posteDto.getCommentaireList() != null) {
+                List<Commentaire> commentaires = posteDto.getCommentaireList().stream()
+                        .map(commentaireDto -> commentaireMapper.commentaireDtoToCommentaire(commentaireDto))
+                        .collect(Collectors.toList());
                 // Associez le commentaire à votre poste
-                existingPoste.setCommentaire(commentaire);
+                existingPoste.setCommentaires(commentaires);
             }
 
             Poste updatedPoste = posteRepository.save(existingPoste);

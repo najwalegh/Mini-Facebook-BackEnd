@@ -12,7 +12,7 @@ import java.util.List;
 
 @Document(collection = "users")
 @Data
-@AllArgsConstructor@NoArgsConstructor@ToString@Builder
+@AllArgsConstructor@NoArgsConstructor@ToString
 public class User {
 
     @Id
@@ -29,15 +29,16 @@ public class User {
     @Field(name = "mot_de_passe")
     private String motDePasse;
 
-    // Référence au profil
-    private Profile profile;
-
     // Liste des commentaires créés par cet utilisateur
     @DBRef
-    private List<Commentaire> comments;
+    private List<Commentaire> comments ;
 
     // Liste des postes créés par cet utilisateur
     @DBRef
     private List<Poste> posts;
+
+    // Référence au profil
+    @DBRef
+    private Profile profile;
 
 }

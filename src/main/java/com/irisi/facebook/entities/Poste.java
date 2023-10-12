@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "poste")
 @Data @AllArgsConstructor @NoArgsConstructor @ToString@Builder
@@ -18,15 +19,20 @@ public class Poste {
 
     private String contenu;
 
-    @DBRef
-    private Commentaire commentaire;
+    @Field(name = "nombre_des_likes")
+    private int likes;
 
-    @Field(name = "number_reaction")
-    private int numberReaction;
+    @Field(name = "nombre_des_dislikes")
+    private int dislikes;
 
     @Field(name = "date_publication")
     private Date datePublication;
 
+    private String userId;
+
     @DBRef
-    private User user;
+    private List<Commentaire> commentaires;
+
+    @DBRef
+    private Image image;
 }

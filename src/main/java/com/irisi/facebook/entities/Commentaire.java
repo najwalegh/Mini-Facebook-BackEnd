@@ -24,7 +24,8 @@ public class Commentaire {
     @Field(name = "date_publication")
     private Date datePublication;
 
-    // L'utilisateur qui a créé ce commentaire
-    private User user;
+    private String userId;
+
+    private String posteId;
 
 }

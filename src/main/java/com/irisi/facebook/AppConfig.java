@@ -1,9 +1,6 @@
 package com.irisi.facebook;
 
-import com.irisi.facebook.mappers.CommentaireMapper;
-import com.irisi.facebook.mappers.PosteMapper;
-import com.irisi.facebook.mappers.ProfileMapper;
-import com.irisi.facebook.mappers.UserMapper;
+import com.irisi.facebook.mappers.*;
 import org.mapstruct.ap.internal.model.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,5 +26,9 @@ public class AppConfig {
 
     @Bean
     public PosteMapper posteMapper(){return Mappers.getMapper(PosteMapper.class);
+    }
+
+    @Bean
+    public ImageMapper imageMapper(){return Mappers.getMapper(ImageMapper.class);
     }
 }

@@ -25,8 +25,8 @@ public class CommentaireImpl implements CommentaireService {
     private final CommentaireMapper commentaireMapper;
 
     @Override
-    public CommentaireDto saveCommentaire(CommentaireDto commentaireDto) {
-        Commentaire commentaire = commentaireMapper.commentaireDtoToCommentaire(commentaireDto);
+    public CommentaireDto saveCommentaire(Commentaire commentaire) {
+//        Commentaire commentaire = commentaireMapper.commentaireDtoToCommentaire(commentaire);
         Commentaire updatedCommentaire = commentaireRepository.save(commentaire);
         return commentaireMapper.commentaireToCommentaireDto(updatedCommentaire);
     }
@@ -53,7 +53,10 @@ public class CommentaireImpl implements CommentaireService {
                 existingComment.setDatePublication(commentaireDto.getDatePublication());
             }
             if (commentaireDto.getUserId() != null) {
-                existingComment.setId(commentaireDto.getUserId());
+                existingComment.setUserId(commentaireDto.getUserId());
+            }
+            if (commentaireDto.getPosteId() != null) {
+                existingComment.setPosteId(commentaireDto.getPosteId());
             }
 
             // Enregistrez les modifications dans la base de données
@@ -77,3 +80,4 @@ public class CommentaireImpl implements CommentaireService {
                 .collect(Collectors.toList());
     }
 }
+
