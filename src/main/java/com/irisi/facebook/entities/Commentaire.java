@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 
-@Document(collection = "commentaire")
+@Document(collection = "commentaires")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
