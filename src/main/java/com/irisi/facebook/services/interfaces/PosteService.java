@@ -14,4 +14,5 @@ public interface PosteService {
     PosteDto updatePoste(String id,PosteDto posteDto);
     void deletePoste(String id);
     List<PosteDto> allPostes();
+    PosteDto getPostById(String postId);
 }

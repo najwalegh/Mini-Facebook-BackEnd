@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,5 +91,18 @@ public class PosteImpl implements PosteService {
         return postes.stream()
                 .map(posteMapper::posteToPosteDto)
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public PosteDto getPostById(String postId) {
+        Optional<Poste> optionalPoste = posteRepository.findById(postId);
+
+        if (optionalPoste.isPresent()) {
+            Poste poste = optionalPoste.get();
+            return posteMapper.posteToPosteDto(poste);
+        } else {
+            return null; // Ou vous pouvez lever une exception utilisateur non trouvé
+        }
     }
 }

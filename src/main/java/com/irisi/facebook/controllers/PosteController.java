@@ -9,6 +9,7 @@ import com.irisi.facebook.mappers.ImageMapper;
 import com.irisi.facebook.services.interfaces.CommentaireService;
 import com.irisi.facebook.services.interfaces.PosteService;
 import com.irisi.facebook.services.interfaces.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,8 @@ public class PosteController {
 
     @Autowired
     public CommentaireService commentaireService;
+    @Autowired
+    public HttpSession httpSession;
 
     @GetMapping("/{postId}")
     public ResponseEntity<PosteDto> getPoste(@PathVariable("postId") String id) {
@@ -41,7 +44,9 @@ public class PosteController {
     @PostMapping
     public ResponseEntity<PosteDto> createPoste( @RequestBody PosteDto posteDto) {
 
-        String userId="1";
+        // Retrieve userId from the session
+        String userId = (String) httpSession.getAttribute("authenticatedUser");
+
         UserDto existingUserDto = userService.getUserById(userId);
         if (existingUserDto != null) {
             Poste poste = new Poste();

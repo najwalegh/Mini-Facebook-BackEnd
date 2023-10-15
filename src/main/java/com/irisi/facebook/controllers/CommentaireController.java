@@ -7,6 +7,7 @@ import com.irisi.facebook.entities.Commentaire;
 import com.irisi.facebook.services.interfaces.CommentaireService;
 import com.irisi.facebook.services.interfaces.PosteService;
 import com.irisi.facebook.services.interfaces.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,10 @@ public class CommentaireController {
     public CommentaireService commentaireService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PosteService posteService;
+    @Autowired
+    private HttpSession httpSession;
 
     @GetMapping("/{commentId}")
     public ResponseEntity<CommentaireDto> getCommentaire(@PathVariable("commentId") String id) {
@@ -31,10 +36,15 @@ public class CommentaireController {
 
     @PostMapping
     public ResponseEntity<CommentaireDto> createCommentaire(@RequestBody CommentaireDto commentaireDto) {
-        String userId = "6527167a6427fb60de5c7e3b";
+//        String userId = "6527167a6427fb60de5c7e3b";
+        // Retrieve userId from the session
+        String userId = (String) httpSession.getAttribute("authenticatedUser");
 
         // Récupérer l'utilisateur existant
         UserDto existingUserDto = userService.getUserById(userId);
+
+        // Récupérer le poste existant
+        PosteDto existingPosteDto = posteService.getPostById(commentaireDto.getPosteId());
 
         if (existingUserDto != null) {
             Commentaire commentaire = new Commentaire();
@@ -59,6 +69,19 @@ public class CommentaireController {
 
             // Mettre à jour l'utilisateur avec la nouvelle liste de commentaires
             userService.updateUser(userId, existingUserDto);
+            // Récupérer la liste des commentaires du poste
+            List<CommentaireDto> commentsOfPoste = existingPosteDto.getCommentaireList();
+            if (commentsOfPoste == null) {
+                commentsOfPoste = new ArrayList<>();
+            }
+
+            // Ajouter le nouveau commentaire à la liste commentaire du post
+            commentsOfPoste.add(createdCommentDto);
+            existingPosteDto.setCommentaireList(commentsOfPoste);
+
+            // Mettre à jour le poste avec la nouvelle liste de commentaires
+            posteService.updatePoste(commentaireDto.getPosteId(), existingPosteDto);
+
 
             return new ResponseEntity<>(createdCommentDto, HttpStatus.OK);
         } else {
