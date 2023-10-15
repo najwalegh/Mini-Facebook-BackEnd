@@ -46,25 +46,10 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getPhoto(@PathVariable("id") String id) {
-        Image image = imageService.getPhoto(id);
-
-
-        if (image != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            return new ResponseEntity<>(image.getImage().getData(), headers, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-//    @GetMapping("/{postId}")
-//    public ResponseEntity<byte[]> getPhotoByPostId(@PathVariable("postId") String postId) {
-//        ImageDto image = imageService.getPhotoByPostId(postId);
+//    @GetMapping("/{id}")
+//    public ResponseEntity<byte[]> getPhoto(@PathVariable("id") String id) {
+//        Image image = imageService.getPhoto(id);
 //
-////        System.out.println(image);
 //
 //        if (image != null) {
 //            HttpHeaders headers = new HttpHeaders();
@@ -74,4 +59,20 @@ public class ImageController {
 //            return ResponseEntity.notFound().build();
 //        }
 //    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<byte[]> getPhotoByPostId(@PathVariable("postId") String postId) {
+        PosteDto posteDto=posteService.getPoste(postId);
+        if (posteDto !=null) {
+            if (posteDto.getImage() != null) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                return new ResponseEntity<>(posteDto.getImage().getImage().getData(), headers, HttpStatus.OK);
+            }else {
+                return ResponseEntity.notFound().build();
+            }
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

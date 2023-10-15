@@ -32,8 +32,9 @@ public class PosteController {
 
     @Autowired
     public CommentaireService commentaireService;
+
     @Autowired
-    public HttpSession httpSession;
+    private HttpSession httpSession;
 
     @GetMapping("/{postId}")
     public ResponseEntity<PosteDto> getPoste(@PathVariable("postId") String id) {
@@ -60,6 +61,10 @@ public class PosteController {
 
             // Convertir la liste de CommentaireDto en une liste de Commentaire
             List<CommentaireDto> commentaireDtoList = posteDto.getCommentaireList();
+
+            if (commentaireDtoList == null) {
+                commentaireDtoList = new ArrayList<>();
+            }
             List<Commentaire> commentaireList = new ArrayList<>();
             for (CommentaireDto commentaireDto : commentaireDtoList) {
                 Commentaire commentaire = new Commentaire();
@@ -73,6 +78,7 @@ public class PosteController {
 
             // Enregistrer le Poste
             PosteDto createdPosteDto = posteService.savePoste(poste);
+
 
             // Récupérer la liste des postes de l'utilisateur
             List<PosteDto> postes = existingUserDto.getPosts();

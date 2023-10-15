@@ -9,7 +9,6 @@ import com.irisi.facebook.repositories.CommentaireRepository;
 import com.irisi.facebook.repositories.PosteRepository;
 import com.irisi.facebook.services.interfaces.PosteService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +91,6 @@ public class PosteImpl implements PosteService {
                 .map(posteMapper::posteToPosteDto)
                 .collect(Collectors.toList());
     }
-
 
     @Override
     public PosteDto getPostById(String postId) {
