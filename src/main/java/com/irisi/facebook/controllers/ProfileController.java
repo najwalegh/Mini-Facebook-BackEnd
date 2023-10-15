@@ -6,6 +6,7 @@ import com.irisi.facebook.dto.UserDto;
 import com.irisi.facebook.entities.Profile;
 import com.irisi.facebook.services.interfaces.ProfileService;
 import com.irisi.facebook.services.interfaces.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class ProfileController {
     @Autowired
     public UserService userService;
 
+    @Autowired
+    public HttpSession httpSession;
+
     @GetMapping("/{profileId}")
     public ResponseEntity<ProfileDto> getProfile(@PathVariable("postId") String id) {
         ProfileDto profileDto=profileService.getProfil(id);
@@ -30,7 +34,9 @@ public class ProfileController {
 
     @PostMapping
     public ResponseEntity<ProfileDto> createProfile(@RequestBody ProfileDto profileDto){
-        String userId="";
+        // Retrieve userId from the session
+        String userId = (String) httpSession.getAttribute("authenticatedUser");
+
         UserDto existingUserDto = userService.getUserById(userId);
         if (existingUserDto != null) {
             Profile profile = new Profile();

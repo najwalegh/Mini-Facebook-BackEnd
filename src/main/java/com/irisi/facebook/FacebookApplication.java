@@ -22,28 +22,28 @@ public class FacebookApplication  {
         SpringApplication.run(FacebookApplication.class, args);
     }
 
-        @Bean
-        CommandLineRunner start(UserImpl user ){
-        return args ->{
-//            UserDto userDto=new UserDto();
-//            userDto.setNom("najwa");
-//            userDto.setPrenom("NAJWA");
-//            userDto.setAdresseEmail("najwa@test");
-//            userDto.setDateNaissance(new Date());
-//            userDto.setMotDePasse("123.com");
-//            log.info("User : "+user.saveUser(userDto));
-//            log.info("User : "+user.allUsers());
-//            log.info("User : "+user.getUser("651bca217ef049489f5083d4"));
-//            user.deleteUser("651bd1366d9a2b5330eae4de");
-
-            UserDto userDto = new UserDto();
-            userDto.setId("123");  // Remplacez "123" par l'ID spécifique que vous souhaitez utiliser
-            userDto.setNom("John");
-            userDto.setPrenom("Doe");
-            userDto.setAdresseEmail("john.doe@example.com");
-
-            // Appel de la méthode pour mettre à jour l'utilisateur
-//            log.info("Updated User : " + user.updateUser(userDto));
-        };
-    }
+//        @Bean
+//        CommandLineRunner start(UserImpl user ){
+//        return args ->{
+////            UserDto userDto=new UserDto();
+////            userDto.setNom("najwa");
+////            userDto.setPrenom("NAJWA");
+////            userDto.setAdresseEmail("najwa@test");
+////            userDto.setDateNaissance(new Date());
+////            userDto.setMotDePasse("123.com");
+////            log.info("User : "+user.saveUser(userDto));
+////            log.info("User : "+user.allUsers());
+////            log.info("User : "+user.getUser("651bca217ef049489f5083d4"));
+////            user.deleteUser("651bd1366d9a2b5330eae4de");
+//
+//            UserDto userDto = new UserDto();
+//            userDto.setId("123");  // Remplacez "123" par l'ID spécifique que vous souhaitez utiliser
+//            userDto.setNom("John");
+//            userDto.setPrenom("Doe");
+//            userDto.setAdresseEmail("john.doe@example.com");
+//
+//            // Appel de la méthode pour mettre à jour l'utilisateur
+////            log.info("Updated User : " + user.updateUser(userDto));
+//        };
+//    }
 }

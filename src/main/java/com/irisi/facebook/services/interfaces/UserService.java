@@ -17,6 +17,7 @@ public interface UserService {
     void deleteUser(String id);
     List<UserDto> allUsers();
     UserDto getUserById(String userId);
-
     void createCommentaireForUser(UserDto userDto, CommentaireDto commentaireDto);
+    String authenticateUser(String email, String password);
+
 }

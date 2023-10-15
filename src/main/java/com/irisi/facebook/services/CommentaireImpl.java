@@ -8,6 +8,7 @@ import com.irisi.facebook.repositories.CommentaireRepository;
 import com.irisi.facebook.services.interfaces.CommentaireService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,18 @@ import java.util.stream.Collectors;
 
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 @Slf4j
 @Transactional
 public class CommentaireImpl implements CommentaireService {
     private final CommentaireRepository commentaireRepository;
     private final CommentaireMapper commentaireMapper;
+
+    @Autowired
+    public CommentaireImpl(CommentaireRepository commentaireRepository,CommentaireMapper commentaireMapper) {
+        this.commentaireRepository = commentaireRepository;
+        this.commentaireMapper=commentaireMapper;
+    }
 
     @Override
     public CommentaireDto saveCommentaire(Commentaire commentaire) {

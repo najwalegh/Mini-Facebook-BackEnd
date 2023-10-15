@@ -136,4 +136,21 @@ public class UserImpl implements UserService {
         // Ajoutez le commentaire à la liste des commentaires de l'utilisateur
         userDto.getComments().add(commentaireDto);
     }
+    @Override
+    public String authenticateUser(String email, String password) {
+        // Rechercher l'utilisateur en fonction du nom d'utilisateur (ou de l'identifiant unique)
+        User user = userRepository.findByAdresseEmail(email);
+
+        System.out.println("email "+email);
+
+        if (user != null) {
+            // Comparer le mot de passe saisi avec le mot de passe stocké (peut nécessiter un hachage et une vérification)
+            if (user.getMotDePasse().equals(password)) {
+                System.out.println("password ="+password);
+                return user.getId(); // Authentification réussie
+            }
+        }
+        return null; // L'authentification échoue
+    }
+
 }

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection = "poste")
+@Document(collection = "postes")
 @Data @AllArgsConstructor @NoArgsConstructor @ToString@Builder
 public class Poste {
 

@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "profil")
+@Document(collection = "profiles")
 @Data @AllArgsConstructor @NoArgsConstructor @ToString @Builder
 public class Profile {
 
