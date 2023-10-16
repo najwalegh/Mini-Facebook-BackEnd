@@ -12,5 +12,6 @@ public interface CommentaireService {
     CommentaireDto updateCommentaire(String id ,CommentaireDto commentaireDto);
     void deleteCommentaire(String id);
     List<CommentaireDto> allCommentaires();
+    List<CommentaireDto> getCommentairesByPostId(String id);
 }
 

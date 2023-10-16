@@ -28,23 +28,36 @@ public class CommentaireController {
     @Autowired
     private HttpSession httpSession;
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentaireDto> getCommentaire(@PathVariable("commentId") String id) {
-        CommentaireDto commentaireDto=commentaireService.getCommentaire(id);
-        return new ResponseEntity<>(commentaireDto, HttpStatus.OK);
-    }
+//    @GetMapping("/{commentId}")
+//    public ResponseEntity<CommentaireDto> getCommentaire(@PathVariable("commentId") String id) {
+//        CommentaireDto commentaireDto=commentaireService.getCommentaire(id);
+//        return new ResponseEntity<>(commentaireDto, HttpStatus.OK);
+//    }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<List<CommentaireDto>> getAllCommentairesByPostId(@PathVariable("postId") String postId) {
+        System.out.println("id de mon poste dans comment " + postId);
+        List<CommentaireDto> commentaires = commentaireService.getCommentairesByPostId(postId);
+        return new ResponseEntity<>(commentaires, HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<CommentaireDto> createCommentaire(@RequestBody CommentaireDto commentaireDto) {
+<<<<<<< Updated upstream
 //        String userId = "6527167a6427fb60de5c7e3b";
         // Retrieve userId from the session
         String userId = (String) httpSession.getAttribute("authenticatedUser");
+=======
+>>>>>>> Stashed changes
 
         // Récupérer l'utilisateur existant
         UserDto existingUserDto = userService.getUserById(userId);
 
         // Récupérer le poste existant
         PosteDto existingPosteDto = posteService.getPostById(commentaireDto.getPosteId());
+<<<<<<< Updated upstream
+=======
+        System.out.println(" mon comment "+commentaireDto.getContenu());
+>>>>>>> Stashed changes
 
         if (existingUserDto != null) {
             Commentaire commentaire = new Commentaire();

@@ -31,7 +31,7 @@ public class ImageController {
             @RequestParam("postId") String postId) {
         try {
             ImageDto image = imageService.addPhoto(title, file, postId);
-
+            System.out.println("l'id de l'image est "+image.getId());
             // Récupérer le poste existant
             PosteDto existingPosteDto = posteService.getPostById(postId);
             existingPosteDto.setImage(image);

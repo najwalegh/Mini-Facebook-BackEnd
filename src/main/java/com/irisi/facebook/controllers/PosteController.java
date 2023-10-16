@@ -45,10 +45,20 @@ public class PosteController {
     @PostMapping
     public ResponseEntity<PosteDto> createPoste( @RequestBody PosteDto posteDto) {
 
+<<<<<<< Updated upstream
         // Retrieve userId from the session
         String userId = (String) httpSession.getAttribute("authenticatedUser");
 
         UserDto existingUserDto = userService.getUserById(userId);
+=======
+        System.out.println("ma userID is "+posteDto.getUserId());
+        System.out.println("mon contenu is "+posteDto.getContenu());
+        String userId = posteDto.getUserId();
+        //  String userId ="651c871a8c1da97cad48d4df";
+        UserDto existingUserDto = userService.getUserById(userId);
+        System.out.println("ma userID is "+userId);
+
+>>>>>>> Stashed changes
         if (existingUserDto != null) {
             Poste poste = new Poste();
             poste.setId(posteDto.getId());
