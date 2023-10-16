@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend URL
+
 @RestController
 @RequestMapping("/commentaires")
 public class CommentaireController {
@@ -42,29 +44,22 @@ public class CommentaireController {
     }
     @PostMapping
     public ResponseEntity<CommentaireDto> createCommentaire(@RequestBody CommentaireDto commentaireDto) {
-<<<<<<< Updated upstream
-//        String userId = "6527167a6427fb60de5c7e3b";
-        // Retrieve userId from the session
-        String userId = (String) httpSession.getAttribute("authenticatedUser");
-=======
->>>>>>> Stashed changes
 
         // Récupérer l'utilisateur existant
-        UserDto existingUserDto = userService.getUserById(userId);
+        UserDto existingUserDto = userService.getUserById(commentaireDto.getUserId());
 
         // Récupérer le poste existant
         PosteDto existingPosteDto = posteService.getPostById(commentaireDto.getPosteId());
-<<<<<<< Updated upstream
-=======
+
         System.out.println(" mon comment "+commentaireDto.getContenu());
->>>>>>> Stashed changes
+        System.out.println(" user id de  comment "+commentaireDto.getUserId());
 
         if (existingUserDto != null) {
             Commentaire commentaire = new Commentaire();
             commentaire.setId(commentaireDto.getId());
             commentaire.setContenu(commentaireDto.getContenu());
             commentaire.setDatePublication(commentaireDto.getDatePublication());
-            commentaire.setUserId(userId);
+            commentaire.setUserId(commentaireDto.getUserId());
             commentaire.setPosteId(commentaireDto.getPosteId());
 
             // Enregistrer le commentaire
@@ -81,7 +76,7 @@ public class CommentaireController {
             existingUserDto.setComments(comments);
 
             // Mettre à jour l'utilisateur avec la nouvelle liste de commentaires
-            userService.updateUser(userId, existingUserDto);
+            userService.updateUser(commentaireDto.getUserId(), existingUserDto);
             // Récupérer la liste des commentaires du poste
             List<CommentaireDto> commentsOfPoste = existingPosteDto.getCommentaireList();
             if (commentsOfPoste == null) {

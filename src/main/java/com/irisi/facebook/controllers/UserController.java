@@ -1,18 +1,16 @@
 package com.irisi.facebook.controllers;
 
 import com.irisi.facebook.dto.UserDto;
-import com.irisi.facebook.entities.User;
 import com.irisi.facebook.services.interfaces.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/utilisateurs")
 public class UserController {
@@ -66,9 +64,9 @@ public class UserController {
             // L'authentification réussit, vous pouvez retourner une réponse appropriée
 
             // Store authenticated userId information in the session
-            httpSession.setAttribute("authenticatedUser", authenticationSuccessful_UserId);
+//            httpSession.setAttribute("authenticatedUser", authenticationSuccessful_UserId);
 
-            return new ResponseEntity<>("Authentication successful", HttpStatus.OK);
+            return new ResponseEntity<>(authenticationSuccessful_UserId, HttpStatus.OK);
         } else {
             // L'authentification échoue, retournez une réponse avec un statut 401 Unauthorized
             return new ResponseEntity<>("Authentication failed", HttpStatus.NOT_FOUND);
@@ -77,4 +75,3 @@ public class UserController {
 
 
 }
-
