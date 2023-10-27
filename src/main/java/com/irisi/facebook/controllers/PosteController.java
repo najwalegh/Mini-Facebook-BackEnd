@@ -48,6 +48,7 @@ public class PosteController {
         System.out.println("ma userID is "+posteDto.getUserId());
         System.out.println("mon contenu is "+posteDto.getContenu());
        String userId = posteDto.getUserId();
+
         //  String userId ="651c871a8c1da97cad48d4df";
         UserDto existingUserDto = userService.getUserById(userId);
 

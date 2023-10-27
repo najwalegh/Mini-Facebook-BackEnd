@@ -87,6 +87,7 @@ public class CommentaireImpl implements CommentaireService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public List<CommentaireDto> getCommentairesByPostId(String id) {
         List<Commentaire> commentaires = commentaireRepository.findCommentairesByPosteId(id);
@@ -95,4 +96,3 @@ public class CommentaireImpl implements CommentaireService {
                 .collect(Collectors.toList());
     }
 }
-

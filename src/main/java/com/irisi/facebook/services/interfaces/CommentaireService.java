@@ -14,4 +14,3 @@ public interface CommentaireService {
     List<CommentaireDto> allCommentaires();
     List<CommentaireDto> getCommentairesByPostId(String id);
 }
-
