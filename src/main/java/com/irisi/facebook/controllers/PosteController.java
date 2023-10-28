@@ -107,6 +107,14 @@ public class PosteController {
         return new ResponseEntity<>(postes,HttpStatus.OK);
     }
 
+    @GetMapping("/profil/{userId}")
+    public ResponseEntity<List<PosteDto>> getAllUserPostes(@PathVariable String userId){
+        System.out.println("l4ID de mon user: "+userId);
+        List<PosteDto> postes = posteService.allUserPostes(userId);
+        System.out.println("les postes de mon user: "+postes);
+        return new ResponseEntity<>(postes,HttpStatus.OK);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePoste(@PathVariable("postId") String id) {
         posteService.deletePoste(id);
