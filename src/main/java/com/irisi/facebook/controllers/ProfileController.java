@@ -56,6 +56,11 @@ public class ProfileController {
         }
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ProfileDto> getProfileByUserId(@PathVariable("userId") String userId) {
+        ProfileDto profileDto = profileService.getProfilByUserId(userId);
+        return new ResponseEntity<>(profileDto, HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<ProfileDto>> getAllProfiles(){
         List<ProfileDto> profiles = profileService.allProfiles();
