@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+@CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend URL
 
 @RestController
 @RequestMapping("/photos")
@@ -24,14 +25,14 @@ public class ImageController {
     @Autowired
     private PosteService posteService;
 
-    @PostMapping
+    @PostMapping("/{postId}")
     public ResponseEntity<String> uploadPhoto(
             @RequestParam("title") String title,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("postId") String postId) {
+            @RequestPart("file") MultipartFile file,
+            @PathVariable("postId") String postId) {
         try {
             ImageDto image = imageService.addPhoto(title, file, postId);
-
+            System.out.println("l'id de l'image est "+image.getId());
             // Récupérer le poste existant
             PosteDto existingPosteDto = posteService.getPostById(postId);
             existingPosteDto.setImage(image);
@@ -39,28 +40,28 @@ public class ImageController {
             // Mettre à jour le poste avec la nouvelle image
             posteService.updatePoste(postId, existingPosteDto);
 
-            return ResponseEntity.ok("Image uploaded successfully. Image ID: " + image.getTitle());
+            return ResponseEntity.ok("{ \"imageId\": \"" + image.getId() + "\" }");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to upload image: " + e.getMessage());
         }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<byte[]> getPhoto(@PathVariable("id") String id) {
-//        Image image = imageService.getPhoto(id);
-//
-//
-//        if (image != null) {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//            return new ResponseEntity<>(image.getImage().getData(), headers, HttpStatus.OK);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> getPhoto(@PathVariable("id") String id) {
+        Image image = imageService.getPhoto(id);
 
-    @GetMapping("/{postId}")
+
+        if (image != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            return new ResponseEntity<>(image.getImage().getData(), headers, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/post/{postId}")
     public ResponseEntity<byte[]> getPhotoByPostId(@PathVariable("postId") String postId) {
         PosteDto posteDto=posteService.getPoste(postId);
         if (posteDto !=null) {

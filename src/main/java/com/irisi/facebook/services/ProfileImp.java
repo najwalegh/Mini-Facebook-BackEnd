@@ -29,6 +29,12 @@ public class ProfileImp  implements ProfileService {
     private final UserMapper userMapper;
 
     @Override
+    public ProfileDto getProfilByUserId(String userId) {
+        Profile profile = profileRepository.findByUserId(userId);
+        return profileMapper.profileToProfileDto(profile);
+    }
+
+    @Override
     public ProfileDto saveProfil(Profile profile) {
 //        Profile profile = profileMapper.profileDtoToProfile(profileDto);
         Profile savedProfile= profileRepository.save(profile);

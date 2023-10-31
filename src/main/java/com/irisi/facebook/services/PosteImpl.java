@@ -28,6 +28,14 @@ public class PosteImpl implements PosteService {
     private ImageMapper imageMapper;
 
     @Override
+    public List<PosteDto> allUserPostes(String userId) {
+        List<Poste> postes = posteRepository.findAllByUserId(userId);
+        return postes.stream()
+                .map(posteMapper::posteToPosteDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PosteDto savePoste(Poste poste) {
         Poste savedPoste= posteRepository.save(poste);
         return posteMapper.posteToPosteDto(savedPoste);

@@ -86,5 +86,13 @@ public class CommentaireImpl implements CommentaireService {
                 .map(commentaireMapper::commentaireToCommentaireDto)
                 .collect(Collectors.toList());
     }
-}
 
+
+    @Override
+    public List<CommentaireDto> getCommentairesByPostId(String id) {
+        List<Commentaire> commentaires = commentaireRepository.findCommentairesByPosteId(id);
+        return commentaires.stream()
+                .map(commentaireMapper::commentaireToCommentaireDto)
+                .collect(Collectors.toList());
+    }
+}

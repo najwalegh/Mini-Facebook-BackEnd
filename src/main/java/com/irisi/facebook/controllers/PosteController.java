@@ -45,10 +45,13 @@ public class PosteController {
     @PostMapping
     public ResponseEntity<PosteDto> createPoste( @RequestBody PosteDto posteDto) {
 
-        // Retrieve userId from the session
-        String userId = (String) httpSession.getAttribute("authenticatedUser");
+        System.out.println("ma userID is "+posteDto.getUserId());
+        System.out.println("mon contenu is "+posteDto.getContenu());
+       String userId = posteDto.getUserId();
 
+        //  String userId ="651c871a8c1da97cad48d4df";
         UserDto existingUserDto = userService.getUserById(userId);
+
         if (existingUserDto != null) {
             Poste poste = new Poste();
             poste.setId(posteDto.getId());
@@ -101,6 +104,14 @@ public class PosteController {
     @GetMapping
     public ResponseEntity<List<PosteDto>> getAllPostes(){
         List<PosteDto> postes = posteService.allPostes();
+        return new ResponseEntity<>(postes,HttpStatus.OK);
+    }
+
+    @GetMapping("/profil/{userId}")
+    public ResponseEntity<List<PosteDto>> getAllUserPostes(@PathVariable String userId){
+        System.out.println("l4ID de mon user: "+userId);
+        List<PosteDto> postes = posteService.allUserPostes(userId);
+        System.out.println("les postes de mon user: "+postes);
         return new ResponseEntity<>(postes,HttpStatus.OK);
     }
 

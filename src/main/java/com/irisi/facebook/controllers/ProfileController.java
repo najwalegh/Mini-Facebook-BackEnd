@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+@CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend URL
 
 @RestController
 @RequestMapping("/profiles")
@@ -55,6 +56,11 @@ public class ProfileController {
         }
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ProfileDto> getProfileByUserId(@PathVariable("userId") String userId) {
+        ProfileDto profileDto = profileService.getProfilByUserId(userId);
+        return new ResponseEntity<>(profileDto, HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<ProfileDto>> getAllProfiles(){
         List<ProfileDto> profiles = profileService.allProfiles();
