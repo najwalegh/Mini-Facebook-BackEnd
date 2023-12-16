@@ -29,3 +29,12 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: run test
+      run: mvn test
+    - name: Build and push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: najwalegh/fb-backend
+        registry: docker.io
+        username: $({secrets.DOCKER_USERNAME})
+        password: $({secrets.DOCKER_PASSWORD})
