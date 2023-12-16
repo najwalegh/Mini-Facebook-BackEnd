@@ -37,5 +37,5 @@ jobs:
       with:
         image: najwalegh/fb-backend
         registry: docker.io
-        username: $({secrets.DOCKER_USERNAME})
-        password: $({secrets.DOCKER_PASSWORD})
+        username: $({ secrets.DOCKER_USERNAME })
+        password: $({ secrets.DOCKER_PASSWORD })
